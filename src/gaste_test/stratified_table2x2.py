@@ -370,12 +370,12 @@ class StratifiedTable2x2:
         self.df = pd.DataFrame(
             {
                 "Studies": self.labels,
-                "$k_i$": self.ai,
-                "$K_i-k_i$": self.bi,
-                "$n_i-k_i$": self.ci,
-                "$N_i-n_i$\n$-K_i+k_i$": self.di,
-                "$p_i^-$": self.pval_under,
-                "$p_i^+$": self.pval_over,
+                "$k_s$": self.ai,
+                "$K_s-k_s$": self.bi,
+                "$n_s-k_s$": self.ci,
+                "$N_s-n_s$\n$-K_s+k_s$": self.di,
+                "$p_s^-$": self.pval_under,
+                "$p_s^+$": self.pval_over,
                 "OR": self.odds_ratio,
                 "log(OR)": self.log_odds_ratio,
                 "CI": self.ci_odds_ratio_print,
@@ -390,19 +390,19 @@ class StratifiedTable2x2:
             row1, row2 = self.name_rows
             col1, col2 = self.name_columns
             dict_rename = {
-                "$k_i$": f"{col1} {row1}",
-                "$K_i-k_i$": f"{col2} {row1}",
-                "$n_i-k_i$": f"{col1} {row2}",
-                "$N_i-n_i$\n$-K_i+k_i$": f"{col2} {row2}",
+                "$k_s$": f"{col1} {row1}",
+                "$K_s-k_s$": f"{col2} {row1}",
+                "$n_s-k_s$": f"{col1} {row2}",
+                "$N_s-n_s$\n$-K_s+k_s$": f"{col2} {row2}",
             }
             self.df.rename(columns=dict_rename, inplace=True)
             self.name_columns_data = list(dict_rename.values())
         else:
             self.name_columns_data = [
-                "$k_i$",
-                "$K_i-k_i$",
-                "$n_i-k_i$",
-                "$N_i-n_i$\n$-K_i+k_i$",
+                "$k_s$",
+                "$K_s-k_s$",
+                "$n_s-k_s$",
+                "$N_s-n_s$\n$-K_s+k_s$",
             ]
         self.combined_pval_less = None
         self.combined_pval_greater = None
@@ -461,10 +461,10 @@ class StratifiedTable2x2:
 
         Notes:
         ------
-        The GASTE statistic is computed as :math:`Y_{\tau} = -2\sum_{i=1}^I \left(\log(P_i) - \log(\tau)\right)\mathbb{I}(P_i\leq\tau)` or each p-value in the given data.
+        The GASTE statistic is computed as :math:`Y_{\tau} = -2\sum_{i=1}^I \left(\log(P_s) - \log(\tau)\right)\mathbb{I}(P_s\leq\tau)` or each p-value in the given data.
 
         .. math::
-            Y_{\tau} = -2\sum_{i=1}^I \left( \log(P_i) - \log(\tau)\right)\mathbb{I}(P_i\leq\tau)
+            Y_{\tau} = -2\sum_{i=1}^I \left( \log(P_s) - \log(\tau)\right)\mathbb{I}(P_s\leq\tau)
 
         The combined p-value is computed exactly by exploring all possible combination of tables if the number of combination is under the limit threshold, else gamma approximation is used.
 
@@ -474,13 +474,13 @@ class StratifiedTable2x2:
         Globaly this method call the function :py:func:`combined_pval.get_pval_comb`. See documentation for more details
         """
         # Globaly this method call the function `combined_pval.get_pval_comb`_ . See documentation for more details.
-        # \(Y_{\tau} = -2\sum_{i=1}^I \left( \log(P_i) - \log(\tau)\right)\mathbb{I}(P_i\leq\tau) \)
+        # \(Y_{\tau} = -2\sum_{i=1}^I \left( \log(P_s) - \log(\tau)\right)\mathbb{I}(P_s\leq\tau) \)
 
         # TODO math formula
         # For the overall under-association, the hypotheses are :
-        # $$H^-_0=\cap H^-_{0_i}: "\forall i, \theta_i \geq 1" \text{ against } H^-_1 : "\theta_i < 1 \text{ for at least one stratum } i"$$
+        # $$H^-_0=\cap H^-_{0_s}: "\forall i, \theta_s \geq 1" \text{ against } H^-_1 : "\theta_s < 1 \text{ for at least one stratum } i"$$
         # Similary, for the overall over-association :
-        # $$H^+_0=\cap H^+_{0_i}: "\forall i, \theta_i \leq 1" \text{ against } H^+_1 : "\theta_i > 1 \text{ for at least one stratum } i"$$
+        # $$H^+_0=\cap H^+_{0_s}: "\forall i, \theta_s \leq 1" \text{ against } H^+_1 : "\theta_s > 1 \text{ for at least one stratum } i"$$
         if alternative == "less":
             pvals = self.pval_under
             alternative = "under"
@@ -708,7 +708,7 @@ class StratifiedTable2x2:
             pool_odd = np.log(self.odds_ratio_pooled)
             center_val = 0
             print_theta = "\log(\\theta)"
-            print_theta_i = "\log(\\theta_i)"
+            print_theta_s = "\log(\\theta_s)"
         else:
             xerr = [
                 self.odds_ratio - self.ci_odds_ratio_inf,
@@ -719,7 +719,7 @@ class StratifiedTable2x2:
             pool_odd = self.odds_ratio_pooled
             center_val = 1
             print_theta = "\\theta"
-            print_theta_i = "\\theta_i"
+            print_theta_s = "\\theta_s"
         ax.errorbar(
             odds_ratio,
             range(len(self.labels) - 1, -1, -1),
@@ -803,13 +803,13 @@ class StratifiedTable2x2:
             fontsize=fontsize,
         )
         ax.annotate(
-            rf"test of $\forall i \, {print_theta_i}\geq{center_val}$, $Y_1^-$={gaste_:.4f}, $\bf{{p^-={(lambda x: f'{x:.2e}' if x < 0.001 else f'{x:.4f}')(gaste_pval_)}}}$",
+            rf"test of $\forall \, s, \, {print_theta_s}\geq{center_val}$, $Y_1^-$={gaste_:.4f}, $\bf{{p^-={(lambda x: f'{x:.2e}' if x < 0.001 else f'{x:.4f}')(gaste_pval_)}}}$",
             xy=(-1, 1 / len(self.labels) / 2 - thresh_adjust - 1.5 / len(self.labels)),
             xycoords="axes fraction",
             fontsize=fontsize,
         )
         ax.annotate(
-            rf"test of $\forall i \, {print_theta_i}\leq{center_val}$, $Y_1^+$={gaste:.4f}, $\bf{{p^+={(lambda x: f'{x:.2e}' if x < 0.001 else f'{x:.4f}')(gaste_pval)}}}$",
+            rf"test of $\forall \, s, \, {print_theta_s}\leq{center_val}$, $Y_1^+$={gaste:.4f}, $\bf{{p^+={(lambda x: f'{x:.2e}' if x < 0.001 else f'{x:.4f}')(gaste_pval)}}}$",
             xy=(-1, 1 / len(self.labels) / 2 - thresh_adjust - 2 / len(self.labels)),
             xycoords="axes fraction",
             fontsize=fontsize,
@@ -829,7 +829,7 @@ class StratifiedTable2x2:
         ax.axvline(pool_odd, color="gray", zorder=1, ls=(0, (5, 5)))
         ax.tick_params(axis="x", which="major", labelsize=fontsize)
 
-        df_left = self.df[self.name_columns_data + ["$p_i^-$", "$p_i^+$"]].copy()
+        df_left = self.df[self.name_columns_data + ["$p_s^-$", "$p_s^+$"]].copy()
         if self.name_rows is not None and self.name_columns is not None:
             row1, row2 = self.name_rows
             col1, col2 = self.name_columns
@@ -854,10 +854,10 @@ class StratifiedTable2x2:
                 xycoords="axes fraction",
                 fontsize=fontsize,
             )
-        df_left["$p_i^-$"] = self.df["$p_i^-$"].apply(
+        df_left["$p_s^-$"] = self.df["$p_s^-$"].apply(
             lambda x: f"{x:.2e}" if x < 0.001 else f"{x:.4f}"
         )
-        df_left["$p_i^+$"] = self.df["$p_i^+$"].apply(
+        df_left["$p_s^+$"] = self.df["$p_s^+$"].apply(
             lambda x: f"{x:.2e}" if x < 0.001 else f"{x:.4f}"
         )
         table_left = pd.plotting.table(
