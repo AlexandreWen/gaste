@@ -83,7 +83,7 @@ statistic: 8.1468, p-value: 0.6862
 >>> stratified_table.plot(thresh_adjust=0.03, save="analysis_admission.png")
 ```
 
-![forest plot with test stat admission](https://raw.githubusercontent.com/AlexandreWen/gaste/blob/main/test/analysis_admission.png)
+![forest plot with test stat admission](https://raw.githubusercontent.com/AlexandreWen/gaste/refs/heads/main/test/analysis_admission.svg)
 
 ### Example: Razzack AA, Hassan SA, Pasya SKR, et al. A Meta-Analysis of Association between Remdesivir and Mortality among Critically-Ill COVID-19 Patients. Infect Chemother. 2021;53(3):512-518. doi:10.3947/ic.2021.0060
 
@@ -116,7 +116,8 @@ The support of the combined p-value is 2.19e+07, under the compute explicite thr
 statistic: 29.8576, p-value: 0.1529
 >>> stratified_table.plot(thresh_adjust=0.03, save="analysis_admission.png")
 ```
-![forest plot with test stat](https://raw.githubusercontent.com/AlexandreWen/gaste/blob/main/test/meta_analysis_covid.png)
+![forest plot with test stat](https://raw.githubusercontent.com/AlexandreWen/gaste/refs/heads/main/test/meta_analysis_covid.svg)
+
 
 ### Example without object `StratifiedTable2x2`, only `get_pval_comb` function
 ```python
