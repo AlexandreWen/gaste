@@ -56,11 +56,10 @@ def explicite_combination(
     type: str,
     tau=None,
     jobs=None,
-    versbose=False,
+    verbose=False,
     distribution=False,
     all_value=False,
 ):
-    # TODO fisnish docstring
     """
     Compute explicit law of combination of p-values.
 
@@ -76,7 +75,7 @@ def explicite_combination(
         The threshold value for combining p-values. Defaults to None.
     jobs : int, optional
         The number of parallel jobs to run. Defaults to None.
-    versbose : bool, optional
+    verbose : bool, optional
         Whether to print verbose output. Defaults to False.
     distribution : bool, optional
         Whether to return the distribution of combined p-values. Defaults to False.
@@ -86,34 +85,27 @@ def explicite_combination(
     Returns
     -------
     float or tuple
-        If `distribution` is False and `all_value` is False, returns the combined p-value.
-        If `distribution` is True and `all_value` is False, returns the reversed arrays of
-        combined p-values and corresponding ranks.
-        If `all_value` is True, returns the arrays of all combined p-values and corresponding ranks.
+        If `distribution` is True, returns a tuple of array describing exact low of combination through the random variable and survival value (y, P(Y>y)).
+        If `all_value` is True, rounded strategy is not used.
+        Else, returns the combined p-value.
 
     Notes
     -----
     This function computes the explicit combination of p-values based on the given parameters.
     The combination can be either "under" or "over" depending on the `type` parameter.
-    The threshold value `tau` is used to determine the significance of the combined p-values.
+    The threshold value `tau` is used to truncate the combination of p-values.
     The `jobs` parameter controls the number of parallel jobs to run for faster computation.
-    Setting `versbose` to True will print additional information during the computation.
+    Setting `verbose` to True will print a progress bar of the computation.
     Setting `distribution` to True will return the distribution of combined p-values.
-    Setting `all_value` to True will return all values of combined p-values.
+    Setting `all_value` to True will return all values of combined p-values without rounded strategy.
 
     Examples
     --------
-    >>> list_params = [[10, 5, 20], [15, 8, 25], [12, 6, 18]]
-    >>> list_pvals = [0.05, 0.01, 0.1]
+    >>> list_params = [[20, 5, 10], [25, 8, 15], [18, 12, 6]]
+    >>> list_pvals = [0.15170278637770898, 0.12810484709798212, 0.29427925016160306]
     >>> type = "under"
-    >>> tau = 0.05
-    >>> jobs = 4
-    >>> versbose = True
-    >>> distribution = False
-    >>> all_value = False
-    >>> result = explicite_combinaison(list_params, list_pvals, type, tau, jobs, versbose, distribution, all_value)
-    >>> print(result)
-    0.0123456789
+    >>> explicite_combinaison(list_params, list_pvals, type)
+    0.028607013097391977
 
     """
     if not tau:
@@ -124,6 +116,7 @@ def explicite_combination(
     masse = []
     max_val = 0
     for p in list_params:
+        p = np.int64(p)
         h = hypergeom(p[0], p[1], p[2])
         sup_max = np.min([p[1], p[2]])
         sup_min = np.max([0, p[1] + p[2] - p[0]])
@@ -150,7 +143,7 @@ def explicite_combination(
     pvals = np.array(pvals, dtype=object)
     masse = np.array(masse, dtype=object)
     size_pv = [len(e) for e in masse]
-    if versbose:
+    if verbose:
         print(size_pv, "size", np.prod(size_pv), "max supp", np.max(size_pv))
 
     cartesian_product = product(*[range(k) for k in size_pv])
@@ -167,7 +160,7 @@ def explicite_combination(
                         chunksize=1000,
                     ),
                     total=np.prod(size_pv),
-                    disable=not versbose,
+                    disable=not verbose,
                 )
             )
     else:
@@ -247,10 +240,10 @@ def moment_matching_estimator(
         * "over": Estimate the parameters for the upper tail of the distribution.
 
     list_pvals : array-like, optional
-        Array-like object containing the p-values for each stratum.
+        Array-like object containing the p-values to combine for each stratum.
         Either `list_pvals` or `comb_pvals` must be provided, but not both.
-    comb_pvals : array-like, optional
-        Array-like object containing the combined p-values for each stratum.
+    comb_pvals : array-like or float, optional
+        Float or array-like object containing the value of combination of p-values.
         Either `list_pvals` or `comb_pvals` must be provided, but not both.
     tau : float, optional
         Threshold value for the p-values. Defaults to None.
@@ -267,16 +260,16 @@ def moment_matching_estimator(
     tuple or float or array-like
     Depending on the input parameters, the function returns:
 
-        * If `get_params` is True and `get_moment` is False, returns a tuple containing the estimated parameters of the gamma distribution.
-        * If `get_params` is False and `get_moment` is True, returns a tuple containing the estimated moment.
-        * If both `get_params` and `get_moment` are True, returns a tuple containing both the estimated parameters and moment.
-        * If both `get_params` and `get_moment` are False, returns the combined p-value.
+        * If `get_params` is True, returns a tuple containing the estimated parameters of the gamma distribution.
+        * If `get_moment` is True, returns a tuple containing the estimated moment.
+        * If `comb_pvals` is an array-like object, returns an array-like object of combined p-value.
+        * Else, returns a float value of the combined p-value.
 
     Raises
     ------
     ValueError
 
-        * If `list_pvals` and `comb_pvals` are both None or both provided.
+        * If `list_pvals` and `comb_pvals` are both None or both provided when get_params if False.
         * If `moment` is not 2, 3, or 4.
         * If `tau` is provided and is not between 0 (excluded) and 1.
 
@@ -299,21 +292,33 @@ def moment_matching_estimator(
     Examples
     --------
     >>> params = [(100, 50, 10), (200, 100, 20)]
-    >>> moment_matching_estimator(params, "under", list_pvals=[0.1, 0.05])
-    (0.5, 0.1)
-    >>> moment_matching_estimator(params, "over", comb_pvals=[0.2, 0.3])
-    0.4
-    >>> moment_matching_estimator(params, "under", list_pvals=[0.1, 0.05], get_params=True)
-    (0.5, 0.1)
-    >>> moment_matching_estimator(params, "over", comb_pvals=[0.2, 0.3], get_moment=True)
-    0.4
+    >>> moment_matching_estimator(params, "under", list_pvals=[0.15892000985554622, 0.0485035183722576])
+    0.01974031791641234
+    >>> moment_matching_estimator(params, "over", comb_pvals=9.730946451863904)
+    0.01974031791641234
+    >>> moment_matching_estimator(params, "over", list_pvals=[0.15892000985554622, 0.0485035183722576], get_moment=True)
+    (3.087381868306516, 5.737504083931502)
+    >>> moment_matching_estimator(params, "under", list_pvals=[0.15892000985554622, 0.0485035183722576], get_params=True)
+    (1.6613368219541702, 1.8583720215596864, 1, 0)
+    >>> gaste_test.moment_matching_estimator(params, "under", comb_pvals=9.730946451863904, tau=0.2)
+    0.0018928012017953636
+    >>> gaste_test.moment_matching_estimator(params, "under", get_params=True, tau=0.2)
+    (0.9601452647906275, 1.9215151230936054, 0.2590451096515598, 0.45983274717174016)
     """
-    if not isinstance(list_pvals, (np.ndarray, list)) and comb_pvals is None:
-        raise ValueError("list_pvals or comb_pvals must be not None")
+    if (
+        not isinstance(list_pvals, (np.ndarray, list))
+        and comb_pvals is None
+        and not get_params
+    ):
+        raise ValueError(
+            "list_pvals or comb_pvals must be not None when get_params is False"
+        )
     if isinstance(list_pvals, (np.ndarray, list)) and comb_pvals:
         raise ValueError(
             "list_pvals and comb_pvals cannot be not None at the same time"
         )
+    if list_pvals is None and not get_params:
+        raise ValueError("list_pvals must be provided when get_params is False")
     if not 2 <= moment <= 4:
         raise ValueError("moment must be 2, 3 or 4")
     if not tau:
@@ -584,7 +589,7 @@ def moment_matching_estimator(
             )
         elif isinstance(comb_pvals, (int, float)):
             combinaison_pvals = comb_pvals
-        elif isinstance(comb_pvals, np.ndarray):
+        elif isinstance(comb_pvals, (np.ndarray, list)):
             return np.array(
                 [
                     gamma(alpha, scale=beta).sf(x - phi) * prop if x > phi else 1
@@ -600,8 +605,8 @@ def moment_matching_estimator(
 
 
 def get_pval_comb(
-    data_pvals,
     data_params,
+    data_pvals,
     type,
     tau=None,
     threshold_compute_explicite=10**7,
@@ -676,7 +681,7 @@ def get_pval_comb(
             type,
             tau=tau,
             jobs=jobs,
-            versbose=verbose,
+            verbose=verbose,
             distribution=distribution,
             all_value=all_value,
         )

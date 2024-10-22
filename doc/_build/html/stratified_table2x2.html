@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gaste_test.stratified_table2x2 module &mdash; gaste test 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="gaste_test.combined_pval module" href="combined_pval.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gaste test
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Gaste test</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="combined_pval.html">gaste_test.combined_pval module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">gaste_test.stratified_table2x2 module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.BD_test"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.BD_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.CMH_test"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.CMH_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.gaste"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.gaste()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.plot"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.pool_ci_odd_ratio"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.pool_ci_odd_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.pool_odd_ratio"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.pool_odd_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.resume"><code class="docutils literal notranslate"><span class="pre">StratifiedTable2x2.resume()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2"><code class="docutils literal notranslate"><span class="pre">Table2x2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.ci_odd_ratio"><code class="docutils literal notranslate"><span class="pre">Table2x2.ci_odd_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.len_support"><code class="docutils literal notranslate"><span class="pre">Table2x2.len_support()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.mh_weight"><code class="docutils literal notranslate"><span class="pre">Table2x2.mh_weight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.odd_ratio"><code class="docutils literal notranslate"><span class="pre">Table2x2.odd_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.pval_over"><code class="docutils literal notranslate"><span class="pre">Table2x2.pval_over()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.pval_under"><code class="docutils literal notranslate"><span class="pre">Table2x2.pval_under()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.support"><code class="docutils literal notranslate"><span class="pre">Table2x2.support()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.support_pval_over"><code class="docutils literal notranslate"><span class="pre">Table2x2.support_pval_over()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.support_pval_under"><code class="docutils literal notranslate"><span class="pre">Table2x2.support_pval_under()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gaste_test.stratified_table2x2.Table2x2.variance_log_odd_ratio"><code class="docutils literal notranslate"><span class="pre">Table2x2.variance_log_odd_ratio()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gaste test</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Gaste test</a></li>
+      <li class="breadcrumb-item active">gaste_test.stratified_table2x2 module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stratified_table2x2.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-gaste_test.stratified_table2x2">
+<span id="gaste-test-stratified-table2x2-module"></span><h1>gaste_test.stratified_table2x2 module<a class="headerlink" href="#module-gaste_test.stratified_table2x2" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gaste_test.stratified_table2x2.</span></span><span class="sig-name descname"><span class="pre">StratifiedTable2x2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This module contains the StratifiedTable2x2 class for analyzing stratified 2x2 contingency tables.</p>
+<p><a class="reference internal" href="#gaste_test.stratified_table2x2.StratifiedTable2x2" title="gaste_test.stratified_table2x2.StratifiedTable2x2"><code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedTable2x2</span></code></a> takes in a list of tables, labels, and optional parameters to perform various statistical tests and calculations on the tables.</p>
+<section id="parameters">
+<h2>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>tables (list) : A list of ndarray 2x2 representing the contingency tables. One table per stratum.
+labels (list) : A list of labels for each table/stratum.
+decimal (int) : The number of decimal places to round the results to. Default is 3.
+alpha (float) : The significance level for confidence intervals and hypothesis tests. Default is 0.05.
+name_rows (tuple) : A tuple of row names for the tables. Optional.
+name_columns (tuple) : A tuple of column names for the tables. Optional.</p>
+</div></blockquote>
+</section>
+<section id="attributes">
+<h2>Attributes:<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>nb_combination (float) : The number of combinations for the exact calculation, int cast to float for numeric reason.
+odds_ratio (ndarray) : An array of odds ratios for each table.
+log_odds_ratio (ndarray) : An array of log odds ratios for each table.
+ci_odds_ratio_inf (ndarray) : An array of lower confidence intervals for odds ratios.
+ci_odds_ratio_sup (ndarray) : An array of upper confidence intervals for odds ratios.
+log_ci_odds_ratio_inf (ndarray) : An array of lower confidence intervals for log odds ratios.
+log_ci_odds_ratio_sup (ndarray) : An array of upper confidence intervals for log odds ratios.
+pval_under (ndarray) : An array of p-values for the hypothesis test of odds ratio &lt; 1.
+pval_over (ndarray) : An array of p-values for the hypothesis test of odds ratio &gt; 1.
+weight (ndarray) : An array of weights for each table.
+odds_ratio_pooled (float) : The pooled odds ratio.
+df (DataFrame) : A pandas DataFrame containing the results of the analysis and data.</p>
+</div></blockquote>
+</section>
+<section id="methods">
+<h2>Methods:<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<blockquote>
+<div><dl class="simple">
+<dt>__init__(tables, labels, decimal=3, alpha=0.05, name_rows=None, name_columns=None):</dt><dd><p>Initializes a StratifiedTable2x2 object with the given parameters.</p>
+</dd>
+<dt>gaste(alternative=’less’, tau=1, limit_computation_exact=10**7, verbose=True, moment=2, jobs=None):</dt><dd><p>Performs the GASTE test on the tables.</p>
+</dd>
+<dt>pool_odd_ratio():</dt><dd><p>Calculates the pooled odds ratio.</p>
+</dd>
+<dt>pool_ci_odd_ratio():</dt><dd><p>Calculates the confidence interval for the pooled odds ratio.</p>
+</dd>
+<dt>CMH_test(correction=False):</dt><dd><p>Performs the Cochran-Mantel-Haenszel test on the tables.</p>
+</dd>
+<dt>BD_test(adjust=False):</dt><dd><p>Performs the Breslow-Day test for homogeneity of odds ratios.</p>
+</dd>
+<dt>resume():</dt><dd><p>Prints a summary of the analysis results.</p>
+</dd>
+<dt>plot(log_scale=True, fontsize=12, thresh_adjust=0.03, y_figsize=None, save=None):</dt><dd><p>Plots a forest plot with odds ratios, confidence intervals and resume of data.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.BD_test">
+<span class="sig-name descname"><span class="pre">BD_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.BD_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.BD_test" title="Link to this definition"></a></dt>
+<dd><p>Perform the Breslow-Day test for homogeneity of odds ratios, i.e. test that all odds ratio are equal.</p>
+<section id="id1">
+<h3>Parameters:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>adjust<span class="classifier">bool, optional</span></dt><dd><p>Use the Tarone adjustment to achieve the chi^2 asymptotic distribution.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>result<span class="classifier">Result</span></dt><dd><dl class="simple">
+<dt>A named tuple containing attributes :</dt><dd><dl class="simple">
+<dt>statistic<span class="classifier">float</span></dt><dd><p>The chi^2 test statistic.</p>
+</dd>
+<dt>p-value<span class="classifier">float</span></dt><dd><p>The p-value for the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes:<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<p>The implementation is inspired by the implementation in the <cite>statsmodels</cite> package.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.CMH_test">
+<span class="sig-name descname"><span class="pre">CMH_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NamedTuple</span></span></span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.CMH_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.CMH_test" title="Link to this definition"></a></dt>
+<dd><p>Perform the Cochran-Mantel-Haenszel (CMH) test on a 2x2 stratified table to test the overall association between features and outcomes in 2x2 stratified table.</p>
+<section id="id2">
+<h3>Parameters:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>correction<span class="classifier">bool, optional</span></dt><dd><p>Parameter to apply Yates correction for continuity. Default is False.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>result<span class="classifier">Result</span></dt><dd><dl class="simple">
+<dt>A named tuple containing attributes :</dt><dd><dl class="simple">
+<dt>stat<span class="classifier">float</span></dt><dd><p>The CMH test statistic</p>
+</dd>
+<dt>pvalue<span class="classifier">float</span></dt><dd><p>The p-value associated with the CMH test</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="references">
+<h3>References:<a class="headerlink" href="#references" title="Link to this heading"></a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Cochran, W. G. (1954). Some methods for strengthening the common chi-squared tests. Biometrics, 10(4), 417-451.</p></li>
+<li><p>Mantel, N., &amp; Haenszel, W. (1959). Statistical aspects of the analysis of data from retrospective studies of disease. Journal of the National Cancer Institute, 22(4), 719-748.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.gaste">
+<span class="sig-name descname"><span class="pre">gaste</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alternative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'less'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_computation_exact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NamedTuple</span></span></span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.gaste"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.gaste" title="Link to this definition"></a></dt>
+<dd><p>Compute the GASTE (Gamma Approximation of Stratified Troncated Exact) test to test the overall association between features and outcome in 2x2 stratified table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alternative</strong> (<em>{'less'</em><em>, </em><em>'greater'}</em><em>, </em><em>optional</em>) – <p>The alternative hypothesis. Default is “less”.</p>
+<ul>
+<li><p>’less’: compute the combined p-value of one-sided <cite>less</cite> Fisher exact test of each stratum to test overall under-association.</p></li>
+<li><p>’greater’: compute the combined p-value of one-sided <cite>greater</cite> Fisher exact test of each stratum to test overall over-association.</p></li>
+</ul>
+<p>See the Notes for more details.</p>
+</p></li>
+<li><p><strong>tau</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – The truncation value used in GASTE. Default is 1.</p></li>
+<li><p><strong>limit_computation_exact</strong> (<em>int</em><em>, </em><em>optional</em>) – The limit for exact computation of the combined p-value. Default is 10^7.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print verbose output during computation. Default is True.</p></li>
+<li><p><strong>moment</strong> (<em>int</em><em>, </em><em>optional</em>) – The moment to use for the approximation of the combined p-value. Default is 2.</p></li>
+<li><p><strong>jobs</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The number of parallel jobs to use for computation. Default is None, all core is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>result</strong> –</p>
+<dl class="simple">
+<dt>A named tuple containing attributes :</dt><dd><dl class="simple">
+<dt>stat<span class="classifier">float</span></dt><dd><p>It’s the value of the combination of p-value of observed data in each strat.</p>
+</dd>
+<dt>pvalue<span class="classifier">float</span></dt><dd><p>The combined p-value resulting from the GASTE test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Result</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the <cite>alternative</cite> parameter is not “less” or “greater”.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">combined_pval.get_pval_comb</span></code></dt><dd><p>The function that computes the combined p-value.</p>
+</dd>
+</dl>
+</div>
+<section id="id4">
+<h3>Notes:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>The GASTE statistic is computed as <span class="math notranslate nohighlight">\(Y_{\tau} = -2\sum_{i=1}^I \left(\log(P_i) - \log(\tau)\right)\mathbb{I}(P_i\leq\tau)\)</span> or each p-value in the given data.</p>
+<div class="math notranslate nohighlight">
+\[Y_{\tau} = -2\sum_{i=1}^I \left( \log(P_i) - \log(\tau)\right)\mathbb{I}(P_i\leq\tau)\]</div>
+<p>The combined p-value is computed exactly by exploring all possible combination of tables if the number of combination is under the limit threshold, else gamma approximation is used.</p>
+<p>If <cite>alternative</cite> is <cite>less</cite>, the combined p-value is stored in <cite>self.combined_pval_less</cite>.
+If <cite>alternative</cite> is <cite>greater</cite>, the combined p-value is stored in <cite>self.combined_pval_greater</cite>. So if the result is needed later in plot method or other, it can be used without recomputing it.</p>
+<p>Globaly this method call the function <code class="xref py py-func docutils literal notranslate"><span class="pre">combined_pval.get_pval_comb()</span></code>. See documentation for more details</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh_adjust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.03</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.plot" title="Link to this definition"></a></dt>
+<dd><p>Plot a forest plot with odds ratios, confidence intervals and resume of data on each side of the CI odd ratio plot. The plot is annotated with the CMH test, BD test, and GASTE test results.</p>
+<section id="id5">
+<h3>Parameters:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>log_scale<span class="classifier">bool, optional</span></dt><dd><p>Whether to use a logarithmic scale for the x-axis, so use odd ratio or log odd ratio. Default is True.</p>
+</dd>
+<dt>fontsize<span class="classifier">int, optional</span></dt><dd><p>The font size for the plot. Default is 12.</p>
+</dd>
+<dt>thresh_adjust<span class="classifier">float, optional</span></dt><dd><p>The adjustment value for the figure on y-axis to align confident interval result with data on each side. If you have only 2 or 3 strata, a value of 0.1 is advise. Else, if you have more than 10 strata, a smaller value like 0.001 is advise. Default is 0.03.</p>
+</dd>
+<dt>y_figsize<span class="classifier">float, optional</span></dt><dd><p>The figure size for the y-axis. Default is None and set automatically based on the number of strata.</p>
+</dd>
+<dt>save<span class="classifier">str, optional</span></dt><dd><p>The file path to save the plot, a png and svg file will be create. Default is None.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Notes:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>At the end <cite>show</cite> is not called, so you can use <cite>plt.show()</cite> to display the plot. But there is an issue with the x-axis size of the display due to the use of annotation to show some information on each side of the CI odd ratio plot. So the option <cite>save</cite> is recommended to save and display the plot, or the use of Jupiter notebook avoid this issue.</p>
+</section>
+<section id="id7">
+<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.pool_ci_odd_ratio">
+<span class="sig-name descname"><span class="pre">pool_ci_odd_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.pool_ci_odd_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.pool_ci_odd_ratio" title="Link to this definition"></a></dt>
+<dd><p>Calculate the confidence interval for the pooled odds ratio.</p>
+<p>This method calculates the confidence interval for the pooled odds ratio using the Generalized Mantel-Haenszel estimators for K 2xJ tables.</p>
+<section id="id8">
+<h3>Returns:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>tuple: A tuple containing the lower and upper bounds of the confidence interval.</p>
+</div></blockquote>
+</section>
+<section id="id9">
+<h3>References:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Greenland S (1989) Generalized Mantel-Haenszel estimators for K 2xJ tables. Biometrics 45(1):183-191</p></li>
+</ul>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.pool_odd_ratio">
+<span class="sig-name descname"><span class="pre">pool_odd_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.pool_odd_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.pool_odd_ratio" title="Link to this definition"></a></dt>
+<dd><p>Calculate the pooled odds ratio.</p>
+<section id="id10">
+<h3>Returns:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>float: The pooled odds ratio.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.StratifiedTable2x2.resume">
+<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#StratifiedTable2x2.resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.StratifiedTable2x2.resume" title="Link to this definition"></a></dt>
+<dd><p>Print the DataFrame containing the data, the odd ration and ci of each stratum, pooled odd ratio with MH method, and the confident interval of the pooled odd ratio.</p>
+<section id="id11">
+<h3>Returns:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gaste_test.stratified_table2x2.</span></span><span class="sig-name descname"><span class="pre">Table2x2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a 2x2 contingency table and provides various statistical calculations.</p>
+<section id="id12">
+<h2>Parameters:<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<p>table_data : 2D array-like representing the content of the table [[a,b],[c,d]] where <cite>a</cite> is the count of events in the first category, <cite>b</cite> is the count of non-events in the first category, <cite>c</cite> is the count of events in the second category, <cite>d</cite> is the count of non-events in the second category. Or a tuple of 4 integers (N, n, K, a) where <cite>N</cite> is the total count of events and non-events, <cite>n</cite> is the count of events in both categories, <cite>K</cite> is the total count in the first category, and <cite>a</cite> is the count of events in the first category.</p>
+</section>
+<section id="id13">
+<h2>Attributes:<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>a<span class="classifier">int</span></dt><dd><p>The count of events in the first category.</p>
+</dd>
+<dt>b<span class="classifier">int</span></dt><dd><p>The count of non-events in the first category.</p>
+</dd>
+<dt>c<span class="classifier">int</span></dt><dd><p>The count of events in the second category.</p>
+</dd>
+<dt>d<span class="classifier">int</span></dt><dd><p>The count of non-events in the second category.</p>
+</dd>
+<dt>N<span class="classifier">int</span></dt><dd><p>The total count of events and non-events (a+b+c+d).</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The count of events in both categories (a+c).</p>
+</dd>
+<dt>K<span class="classifier">int</span></dt><dd><p>The total count in the first category (a+b).</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h2>Methods:<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>odd_ratio()</dt><dd><p>Calculates the odds ratio of the contingency table.</p>
+</dd>
+<dt>support()</dt><dd><p>Returns the range of possible support values.</p>
+</dd>
+<dt>len_support()</dt><dd><p>Returns the number of possible support values.</p>
+</dd>
+<dt>variance_log_odd_ratio()</dt><dd><p>Calculates the variance of the log odds ratio.</p>
+</dd>
+<dt>ci_odd_ratio(alpha=0.05)</dt><dd><p>Calculates the confidence interval of the odds ratio.</p>
+</dd>
+<dt>mh_weight()</dt><dd><p>Calculates the Mantel-Haenszel weight.</p>
+</dd>
+<dt>pval_under()</dt><dd><p>Calculates the p-value for observing the given count or fewer.</p>
+</dd>
+<dt>pval_over()</dt><dd><p>Calculates the p-value for observing the given count or more.</p>
+</dd>
+<dt>support_pval_under()</dt><dd><p>Calculates the p-values for observing each support value or fewer.</p>
+</dd>
+<dt>support_pval_over()</dt><dd><p>Calculates the p-values for observing each support value or more.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.ci_odd_ratio">
+<span class="sig-name descname"><span class="pre">ci_odd_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.ci_odd_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.ci_odd_ratio" title="Link to this definition"></a></dt>
+<dd><p>Calculates the confidence interval of the odds ratio.</p>
+<section id="id15">
+<h3>Parameters:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>alpha<span class="classifier">float, optional</span></dt><dd><p>The significance level (default is 0.05).</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h3>Returns:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the lower and upper bounds of the confidence interval.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.len_support">
+<span class="sig-name descname"><span class="pre">len_support</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.len_support"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.len_support" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of possible support values.</p>
+<section id="id17">
+<h3>Returns:<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The number of possible support values.</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h3>Notes:<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<p>The type of the int return value is cast to float to avoid rounding errors during the calculation of the number of combination in Stratified2x2.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.mh_weight">
+<span class="sig-name descname"><span class="pre">mh_weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.mh_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.mh_weight" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Mantel-Haenszel weight.</p>
+<section id="id19">
+<h3>Returns:<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The Mantel-Haenszel weight.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.odd_ratio">
+<span class="sig-name descname"><span class="pre">odd_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.odd_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.odd_ratio" title="Link to this definition"></a></dt>
+<dd><p>Calculates the odds ratio of the contingency table.</p>
+<section id="id20">
+<h3>Returns:<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The odds ratio.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.pval_over">
+<span class="sig-name descname"><span class="pre">pval_over</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.pval_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.pval_over" title="Link to this definition"></a></dt>
+<dd><p>Calculates the p-value for observing the given count or more.</p>
+<section id="id21">
+<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The p-value.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.pval_under">
+<span class="sig-name descname"><span class="pre">pval_under</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.pval_under"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.pval_under" title="Link to this definition"></a></dt>
+<dd><p>Calculates the p-value for observing the given count or fewer.</p>
+<section id="id22">
+<h3>Returns:<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The p-value.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.support">
+<span class="sig-name descname"><span class="pre">support</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">range</span></span></span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.support"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.support" title="Link to this definition"></a></dt>
+<dd><p>Returns the range of possible support values.</p>
+<section id="id23">
+<h3>Returns:<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>range</dt><dd><p>The range of possible support values.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.support_pval_over">
+<span class="sig-name descname"><span class="pre">support_pval_over</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.support_pval_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.support_pval_over" title="Link to this definition"></a></dt>
+<dd><p>Calculates the p-values for observing each support value or more.</p>
+<section id="id24">
+<h3>Returns:<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ndarray</dt><dd><p>An array of p-values.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.support_pval_under">
+<span class="sig-name descname"><span class="pre">support_pval_under</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.support_pval_under"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.support_pval_under" title="Link to this definition"></a></dt>
+<dd><p>Calculates the p-values for observing each support value or fewer.</p>
+<section id="id25">
+<h3>Returns:<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ndarray</dt><dd><p>An array of p-values.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gaste_test.stratified_table2x2.Table2x2.variance_log_odd_ratio">
+<span class="sig-name descname"><span class="pre">variance_log_odd_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/stratified_table2x2.html#Table2x2.variance_log_odd_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.stratified_table2x2.Table2x2.variance_log_odd_ratio" title="Link to this definition"></a></dt>
+<dd><p>Calculates the variance of the log odds ratio.</p>
+<section id="id26">
+<h3>Returns:<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The variance of the log odds ratio.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="combined_pval.html" class="btn btn-neutral float-left" title="gaste_test.combined_pval module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Alexandre Wendling.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

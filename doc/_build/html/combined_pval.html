@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gaste_test.combined_pval module &mdash; gaste test 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gaste_test.stratified_table2x2 module" href="stratified_table2x2.html" />
+    <link rel="prev" title="Gaste test" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gaste test
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Gaste test</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">gaste_test.combined_pval module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gaste_test.combined_pval.explicite_combination"><code class="docutils literal notranslate"><span class="pre">explicite_combination()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gaste_test.combined_pval.get_pval_comb"><code class="docutils literal notranslate"><span class="pre">get_pval_comb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gaste_test.combined_pval.moment_matching_estimator"><code class="docutils literal notranslate"><span class="pre">moment_matching_estimator()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stratified_table2x2.html">gaste_test.stratified_table2x2 module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gaste test</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Gaste test</a></li>
+      <li class="breadcrumb-item active">gaste_test.combined_pval module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/combined_pval.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-gaste_test.combined_pval">
+<span id="gaste-test-combined-pval-module"></span><h1>gaste_test.combined_pval module<a class="headerlink" href="#module-gaste_test.combined_pval" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="gaste_test.combined_pval.explicite_combination">
+<span class="sig-prename descclassname"><span class="pre">gaste_test.combined_pval.</span></span><span class="sig-name descname"><span class="pre">explicite_combination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_pvals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/combined_pval.html#explicite_combination"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.combined_pval.explicite_combination" title="Link to this definition"></a></dt>
+<dd><p>Compute explicit law of combination of p-values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_params</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>int</em><em>]</em><em>]</em>) – A list of parameter lists. Each parameter list contains three integers [N, K, n] indicating the data in each stratum (length of List = number of stratum). <cite>N</cite> is the population size, <cite>K</cite> is the number of positive outcome in both categories (with and without the feature), and <cite>n</cite> is the number of both outcomes (positive and negative) with the feature. These three integers are also the parameters of the hypergeometric distribution of each stratum that describes the probability of observing the data</p></li>
+<li><p><strong>list_pvals</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – A list of p-values of each stratum. These p-values are the result of Fisher’s exact test for each stratum.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – The type of combination. Can be either “under” or “over”.</p></li>
+<li><p><strong>tau</strong> (<em>float</em><em>, </em><em>optional</em>) – The threshold value for combining p-values. Defaults to None.</p></li>
+<li><p><strong>jobs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of parallel jobs to run. Defaults to None.</p></li>
+<li><p><strong>versbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print verbose output. Defaults to False.</p></li>
+<li><p><strong>distribution</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the distribution of combined p-values. Defaults to False.</p></li>
+<li><p><strong>all_value</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return all values of combined p-values. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>distribution</cite> is False and <cite>all_value</cite> is False, returns the combined p-value.
+If <cite>distribution</cite> is True and <cite>all_value</cite> is False, returns the reversed arrays of
+combined p-values and corresponding ranks.
+If <cite>all_value</cite> is True, returns the arrays of all combined p-values and corresponding ranks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float or tuple</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function computes the explicit combination of p-values based on the given parameters.
+The combination can be either “under” or “over” depending on the <cite>type</cite> parameter.
+The threshold value <cite>tau</cite> is used to determine the significance of the combined p-values.
+The <cite>jobs</cite> parameter controls the number of parallel jobs to run for faster computation.
+Setting <cite>versbose</cite> to True will print additional information during the computation.
+Setting <cite>distribution</cite> to True will return the distribution of combined p-values.
+Setting <cite>all_value</cite> to True will return all values of combined p-values.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">list_params</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">18</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_pvals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;under&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jobs</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">versbose</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">distribution</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_value</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explicite_combinaison</span><span class="p">(</span><span class="n">list_params</span><span class="p">,</span> <span class="n">list_pvals</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">jobs</span><span class="p">,</span> <span class="n">versbose</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">all_value</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">0.0123456789</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gaste_test.combined_pval.get_pval_comb">
+<span class="sig-prename descclassname"><span class="pre">gaste_test.combined_pval.</span></span><span class="sig-name descname"><span class="pre">get_pval_comb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_pvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_compute_explicite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/combined_pval.html#get_pval_comb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.combined_pval.get_pval_comb" title="Link to this definition"></a></dt>
+<dd><p>Compute the combined p-value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_pvals</strong> (<em>list</em>) – List of p-values.</p></li>
+<li><p><strong>data_params</strong> (<em>list</em>) – List of parameters.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of combination method.</p></li>
+<li><p><strong>tau</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold value for p-values. Default is None.</p></li>
+<li><p><strong>threshold_compute_explicite</strong> (<em>int</em><em>, </em><em>optional</em>) – Threshold for using explicit calculation. Default is 10**7.</p></li>
+<li><p><strong>moment</strong> (<em>int</em><em>, </em><em>optional</em>) – Moment for moment matching estimator. Default is 4.</p></li>
+<li><p><strong>jobs</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of parallel jobs. Default is None.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print verbose output. Default is False.</p></li>
+<li><p><strong>distribution</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to compute the distribution of the combined p-value. Default is False.</p></li>
+<li><p><strong>all_value</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return all intermediate values. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The combined p-value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function computes the combined p-value based on the given p-values and parameters.
+It uses either explicit calculation or moment matching estimator depending on the support size of the combined p-value.
+If the support size is below the threshold_compute_explicite, explicit calculation is used.
+Otherwise, moment matching estimator is used.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gaste_test.combined_pval.moment_matching_estimator">
+<span class="sig-prename descclassname"><span class="pre">gaste_test.combined_pval.</span></span><span class="sig-name descname"><span class="pre">moment_matching_estimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_pvals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comb_pvals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_moment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gaste_test/combined_pval.html#moment_matching_estimator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gaste_test.combined_pval.moment_matching_estimator" title="Link to this definition"></a></dt>
+<dd><p>Estimate the parameters of a gamma distribution using the method of moments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>list</em><em> of </em><em>tuples</em>) – List of tuples containing the parameters of the hypergeometric distribution for each stratum.
+Each tuple should contain three values: (N, K, n), where N is the population size, K is the number of successes in the population, and n is the sample size.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – <p>Type of estimation to perform. Can be either “under” or “over”.</p>
+<ul>
+<li><p>”under”: Estimate the parameters for the lower tail of the distribution.</p></li>
+<li><p>”over”: Estimate the parameters for the upper tail of the distribution.</p></li>
+</ul>
+</p></li>
+<li><p><strong>list_pvals</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Array-like object containing the p-values for each stratum.
+Either <cite>list_pvals</cite> or <cite>comb_pvals</cite> must be provided, but not both.</p></li>
+<li><p><strong>comb_pvals</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Array-like object containing the combined p-values for each stratum.
+Either <cite>list_pvals</cite> or <cite>comb_pvals</cite> must be provided, but not both.</p></li>
+<li><p><strong>tau</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold value for the p-values. Defaults to None.
+If not provided, a default value of 1 will be used.</p></li>
+<li><p><strong>moment</strong> (<em>int</em><em>, </em><em>optional</em>) – Moment to estimate. Can be 2, 3, or 4. Defaults to 2.</p></li>
+<li><p><strong>get_params</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag indicating whether to return the estimated parameters. Defaults to False.</p></li>
+<li><p><strong>get_moment</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag indicating whether to return the estimated moment. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>tuple or float or array-like</em></p></li>
+<li><p><em>Depending on the input parameters, the function returns</em> –</p>
+<ul>
+<li><p>If <cite>get_params</cite> is True and <cite>get_moment</cite> is False, returns a tuple containing the estimated parameters of the gamma distribution.</p></li>
+<li><p>If <cite>get_params</cite> is False and <cite>get_moment</cite> is True, returns a tuple containing the estimated moment.</p></li>
+<li><p>If both <cite>get_params</cite> and <cite>get_moment</cite> are True, returns a tuple containing both the estimated parameters and moment.</p></li>
+<li><p>If both <cite>get_params</cite> and <cite>get_moment</cite> are False, returns the combined p-value.</p></li>
+</ul>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – <ul>
+<li><p>If <cite>list_pvals</cite> and <cite>comb_pvals</cite> are both None or both provided.
+    * If <cite>moment</cite> is not 2, 3, or 4.
+    * If <cite>tau</cite> is provided and is not between 0 (excluded) and 1.</p></li>
+</ul>
+</p></li>
+<li><p><strong>Warning</strong> – <ul>
+<li><p>If the moment of the distribution is negative, a lower moment will be used instead.
+    * If all root of alpha in MME are complex, a lower moment will be used instead.
+    * If all real root of alpha in MME are negative, a lower moment will be used instead.
+    * If the smallest reachable p-values are below the float value closest to zero, a warning will be raised.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function estimates the parameters of a gamma distribution using the method of moments.
+The method of moments matches the moments of the gamma distribution to the sample moments.
+The estimation can be performed for the lower tail or the upper tail of the distribution.
+The function supports estimation of moments up to the fourth moment.
+The estimated parameters can be obtained by setting <cite>get_params</cite> to True.
+The estimated moment can be obtained by setting <cite>get_moment</cite> to True.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moment_matching_estimator</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;under&quot;</span><span class="p">,</span> <span class="n">list_pvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+<span class="go">(0.5, 0.1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moment_matching_estimator</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;over&quot;</span><span class="p">,</span> <span class="n">comb_pvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+<span class="go">0.4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moment_matching_estimator</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;under&quot;</span><span class="p">,</span> <span class="n">list_pvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span> <span class="n">get_params</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(0.5, 0.1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moment_matching_estimator</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;over&quot;</span><span class="p">,</span> <span class="n">comb_pvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="n">get_moment</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">0.4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Gaste test" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="stratified_table2x2.html" class="btn btn-neutral float-right" title="gaste_test.stratified_table2x2 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Alexandre Wendling.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

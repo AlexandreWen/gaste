@@ -84,7 +84,7 @@ class Table2x2:
             Tuple[Tuple[int, int], Tuple[int, int]], Tuple[int, int, int, int]
         ],
     ) -> None:
-        table_data = np.array(table_data)
+        table_data = np.array(table_data, dtype=int)
         if table_data.shape == (2, 2):
             self.a, self.b = table_data[0]
             self.c, self.d = table_data[1]
@@ -275,6 +275,7 @@ class StratifiedTable2x2:
         labels (list) : A list of labels for each table/stratum.
         decimal (int) : The number of decimal places to round the results to. Default is 3.
         alpha (float) : The significance level for confidence intervals and hypothesis tests. Default is 0.05.
+        limit_computation_exact (int) : The limit for exact computation of the combined p-value. Default is 10^7.
         name_rows (tuple) : A tuple of row names for the tables. Optional.
         name_columns (tuple) : A tuple of column names for the tables. Optional.
 
@@ -319,10 +320,10 @@ class StratifiedTable2x2:
         labels: Optional[List[str]] = None,
         decimal: Optional[int] = 3,
         alpha: Optional[str] = 0.05,
+        limit_computation_exact: Optional[int] = 10**7,
         name_rows: Optional[Tuple[str, str]] = None,
         name_columns: Optional[Tuple[str, str]] = None,
     ) -> None:
-        # TODO include different way to give tables
         # TODO include random effect model and different method than MH
         self.tables = [Table2x2(table) for table in tables]
         if labels is None:
@@ -344,6 +345,7 @@ class StratifiedTable2x2:
         self.nb_combination = np.prod(
             [float(table.len_support()) for table in self.tables]
         )
+        self.limit_computation_exact = limit_computation_exact
 
         self.odds_ratio = np.array([table.odd_ratio() for table in self.tables])
         self.log_odds_ratio = np.log(self.odds_ratio)
@@ -490,12 +492,16 @@ class StratifiedTable2x2:
         else:
             raise ValueError("alternative should be 'less' or 'greater'")
         gaste_ = -2 * np.sum(np.log([p / tau if p <= tau else 1 for p in pvals]))
+        if self.limit_computation_exact == 10**7 and limit_computation_exact != 10**7:
+            limit_computation_exact_ = limit_computation_exact
+        else:
+            limit_computation_exact_ = self.limit_computation_exact
         comb_pval = get_pval_comb(
             pvals,
             self.params,
             alternative,
             tau=tau,
-            threshold_compute_explicite=limit_computation_exact,
+            threshold_compute_explicite=limit_computation_exact_,
             verbose=verbose,
             moment=moment,
             jobs=jobs,

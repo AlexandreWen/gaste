@@ -24,6 +24,18 @@ if __name__ == "__main__":
     stratified_table = StratifiedTable2x2(
         contingency_tables, labels=strat_label, name_rows=rows, name_columns=columns
     )
+    # contingency_tables = [
+    #     [[59, 77], [482, 444]],
+    #     [[301, 303], [2442, 2405]],
+    #     [[3, 4], [190, 196]],
+    #     [[22, 10], [128, 67]],
+    # ]
+    # strat_label = ["ACTT-1 2020", "SOLIDARITY 2020", "Spinner 2020", "Wang 2020"]
+    # rows = ("Remdesivir", "Placebo")
+    # columns = ("Event", "No event")
+    # stratified_table = StratifiedTable2x2(
+    #     contingency_tables, labels=strat_label, name_rows=rows, name_columns=columns
+    # )
     # Result of analyse
     stratified_table.resume()
     print(
@@ -37,6 +49,10 @@ if __name__ == "__main__":
         f"P-value of stratified exact test to test under-association : {stratified_table.gaste(alternative='less')}\n"
     )
     print(
+        f"P-value of stratified exact test to test under-association (approx gamma) : {stratified_table.gaste(alternative='less', limit_computation_exact=3*10**7)}\n"
+    )
+
+    print(
         f"P-value pf stratified exact test to test over-association : {stratified_table.gaste(alternative='greater')}\n"
     )
     print(
@@ -46,4 +62,5 @@ if __name__ == "__main__":
         f"One side 'greater' Fisher exact test on each stratum :{stratified_table.pval_over}\n"
     )
     # forest plot
+    # stratified_table.plot(thresh_adjust=0.03, save=path + "/meta_analysis_covid.png")
     stratified_table.plot(thresh_adjust=0.03, save=path + "/analysis_admission.png")
