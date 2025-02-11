@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: gaste-test
-Version: 0.1.0
+Version: 0.1.2
 Summary: Gamma approximation of stratified truncated exact test
 Home-page: UNKNOWN
 Author: Alexandre WENDLING
@@ -95,7 +95,8 @@ The support of the combined p-value is 1.72e+12, over the compute explicite thre
 statistic: 8.1468, p-value: 0.6862
 >>> stratified_table.plot(thresh_adjust=0.03, save="analysis_admission.png")
 ```
-![image info](test/analysis_admission.svg)
+
+![forest plot with test stat admission](https://raw.githubusercontent.com/AlexandreWen/gaste/refs/heads/main/test/analysis_admission.svg)
 
 ### Example: Razzack AA, Hassan SA, Pasya SKR, et al. A Meta-Analysis of Association between Remdesivir and Mortality among Critically-Ill COVID-19 Patients. Infect Chemother. 2021;53(3):512-518. doi:10.3947/ic.2021.0060
 
@@ -128,8 +129,8 @@ The support of the combined p-value is 2.19e+07, under the compute explicite thr
 statistic: 29.8576, p-value: 0.1529
 >>> stratified_table.plot(thresh_adjust=0.03, save="analysis_admission.png")
 ```
+![forest plot with test stat](https://raw.githubusercontent.com/AlexandreWen/gaste/refs/heads/main/test/meta_analysis_covid.svg)
 
-![image info](test/meta_analysis_covid.svg)
 
 ### Example without object `StratifiedTable2x2`, only `get_pval_comb` function
 ```python
@@ -146,7 +147,7 @@ array([[1175,   12,  107],
 >>> pval_under = [hypergeom(*param).cdf(k) for param, k in zip(params, np.array(contingency_table)[:,0,0])]
 >>> pval_under
 [0.9818678457734665, 0.9821041004573289]
->>> pval_over = [hypergeom(*param).sf(k-1) for param, k in zip(params, np.array(contingency_table)[:,0,0])]
+>>> pval_over = [hypergeom(*param).sf(k-1) for param, k in zip(params, np.array(contingency_table)[:,0,0])] 
 >>> pval_over
 [0.08808167695347509, 0.2264843810557321]
 >>> from gaste_test import get_pval_comb
@@ -158,7 +159,7 @@ array([[1175,   12,  107],
 
 ### Example of R wrapper with reticulate
 
-As input to the `StratifiedTable2x2` object, we have presented a contingency table in the form of an array of shape (nb_strat, 2,2) as. But we can also give as input a list of tuples 4 integers representing ($N_s$, $n_s$, $K_s$, $a_s$) where $N_s$ is the total count of events and non-events, $n_s is the count of events in both categories, $K_s$ is the total count in the first category, and $a_s$ is the count of events in the first category. This is illustrated below when using the package in R through reticulate
+As input to the `StratifiedTable2x2` object, we have presented a contingency table in the form of an array of shape (nb_strat, 2,2) as. But we can also give as input a list of tuples 4 integers representing ($N_s$, $n_s$, $K_s$, $a_s$) where $N_s$ is the total count of events and non-events, $n_s$ is the count of events in both categories, $K_s$ is the total count in the first category, and $a_s$ is the count of events in the first category. This is illustrated below when using the package in R through reticulate
 ```r
 > library(reticulate)
 > py_install("gaste-test")

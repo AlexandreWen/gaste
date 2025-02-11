@@ -123,11 +123,11 @@ def explicite_combination(
         if "under" in type:
             pvals.append(h.cdf(range(sup_min, sup_max + 1)))
             if (pval_min := h.cdf(sup_min)) < tau and 0.0 not in pvals[-1]:
-                max_val += np.log(pval_min)
+                max_val += np.log(pval_min / tau)
         elif "over" in type:
             pvals.append(h.sf(range(sup_min - 1, sup_max)))
             if (pval_min := h.sf(sup_max - 1)) < tau and 0.0 not in pvals[-1]:
-                max_val += np.log(pval_min)
+                max_val += np.log(pval_min / tau)
         else:
             raise ValueError("type must be either 'under' or 'over'")
         if 0.0 in pvals[-1]:
@@ -137,6 +137,7 @@ def explicite_combination(
             pvals[-1] = np.array(
                 [p if p != 0 else np.nextafter(0, 1) for p in pvals[-1]]
             )
+            max_val += np.log(np.nextafter(0, 1) / tau)
         masse.append([h.pmf(k) for k in range(sup_min, sup_max + 1)])
     max_val = -2 * max_val
     round_dec = 16 - len(str(int(max_val))) - 3
@@ -397,8 +398,9 @@ def moment_matching_estimator(
     prop = 1
     phi = []
     control_pval = []
-    max_support = 0
+    # max_support = 0
     for j, param in enumerate(params):
+        param = np.int64(param)
         h = hypergeom(param[0], param[1], param[2])
         sup_max = np.min([param[1], param[2]])
         sup_min = np.max([0, param[1] + param[2] - param[0]])
@@ -418,11 +420,11 @@ def moment_matching_estimator(
             )
             control_pval.append(j)
             pvals = np.array([p if p != 0 else np.nextafter(0, 1) for p in pvals])
-            max_support += 2 * 300
-        else:
-            max_support += -2 * np.log(
-                np.min([pval / tau if pval <= tau else 1 for pval in pvals])
-            )
+        #     max_support += 2 * np.log(np.nextafter(0, 1) / tau)
+        # else:
+        #     max_support += -2 * np.log(
+        #         np.min([pval / tau if pval <= tau else 1 for pval in pvals])
+        #     )
         phi.append(
             min(pvals / tau, key=lambda x: 1 - x if 1 - x >= 0 else float("inf"))
         )
@@ -608,8 +610,8 @@ def get_pval_comb(
     data_params,
     data_pvals,
     type,
-    tau=None,
-    threshold_compute_explicite=10**7,
+    tau=0.2,
+    threshold_compute_explicite=5 * 10**7,
     moment=4,
     jobs=None,
     verbose=False,
@@ -664,6 +666,35 @@ def get_pval_comb(
         for p in data_params
     ]
     support_size = np.prod(size_HG)
+    var_Y_tau = moment_matching_estimator(
+        data_params,
+        type,
+        list_pvals=data_pvals,
+        tau=tau,
+        moment=moment,
+        get_moment=True,
+    )[1]
+
+    max_val = 0
+    for p in data_params:
+        p = np.int64(p)
+        h = hypergeom(p[0], p[1], p[2])
+        sup_max = np.min([p[1], p[2]])
+        sup_min = np.max([0, p[1] + p[2] - p[0]])
+        if "under" in type:
+            if (pval_min := h.cdf(sup_min)) < tau and 0.0 != pval_min:
+                max_val += np.log(pval_min / tau)
+            else:
+                max_val += np.log(np.nextafter(0, 1) / tau)
+        elif "over" in type:
+            if (pval_min := h.sf(sup_max - 1)) < tau and 0.0 != pval_min:
+                max_val += np.log(pval_min / tau)
+            else:
+                max_val += np.log(np.nextafter(0, 1) / tau)
+        else:
+            raise ValueError("type must be either 'under' or 'over'")
+    max_val = -2 * max_val
+
     if len(data_pvals) == 0:
         return None
     if len(np.array(data_pvals)[np.array(data_pvals) >= tau]) == len(data_pvals):
@@ -690,6 +721,27 @@ def get_pval_comb(
             print(
                 f"The support of the combined p-value is {support_size:.2e}, over the compute explicite threshold of {threshold_compute_explicite:.2e} , the moment matching estimator is used."
             )
+        automatic_moment = moment
+        already_check = False
+        if tau > 0.2:
+            if verbose:
+                print(
+                    f"You set a truncation threshold tau {tau} above 0.2, the moment matching estimator is used automatically with second moment."
+                )
+            automatic_moment = 2
+            already_check = True
+        if var_Y_tau / max_val > 0.1 and not already_check:
+            if verbose:
+                print(
+                    f"The ratio between the variance of the combined p-value ({var_Y_tau:.2f}) and the max value of the statistic ({max_val:.2f}) is above 0.1, the moment matching estimator is used automatically with second moment."
+                )
+            automatic_moment = 2
         return moment_matching_estimator(
-            data_params, type, list_pvals=data_pvals, tau=tau, moment=moment
+            data_params, type, list_pvals=data_pvals, tau=tau, moment=automatic_moment
         )
+
+
+# idea find the value of tau given the min combined pvals (pval hacking ???)
+# or use the BD test to test the homogeneous
+# number of test = number of strata
+# test sensibility of approximation comparing the moment (eg coeff variation among 3 values)
