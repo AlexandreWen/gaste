@@ -18,7 +18,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 # This call to setup() does all the work
 setup(
     name="gaste_test",
-    version="0.1.1",
+    version="0.1.3",
     description="Gamma approximation of stratified truncated exact test",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -41,3 +41,4 @@ setup(
         ]
     },
 )
+3

@@ -398,7 +398,7 @@ def moment_matching_estimator(
     prop = 1
     phi = []
     control_pval = []
-    # max_support = 0
+    min_pvals_under_tau = []
     for j, param in enumerate(params):
         param = np.int64(param)
         h = hypergeom(param[0], param[1], param[2])
@@ -420,14 +420,10 @@ def moment_matching_estimator(
             )
             control_pval.append(j)
             pvals = np.array([p if p != 0 else np.nextafter(0, 1) for p in pvals])
-        #     max_support += 2 * np.log(np.nextafter(0, 1) / tau)
-        # else:
-        #     max_support += -2 * np.log(
-        #         np.min([pval / tau if pval <= tau else 1 for pval in pvals])
-        #     )
         phi.append(
             min(pvals / tau, key=lambda x: 1 - x if 1 - x >= 0 else float("inf"))
         )
+        min_pvals_under_tau.append(pvals[pvals <= tau])
         esp = _esperance(masse, pvals)
         esps.append(esp)
         var = _variance(masse, pvals, esp)
@@ -441,14 +437,22 @@ def moment_matching_estimator(
 
     if tau != 1:
         phi = np.array(phi)
-        if len(phi[phi <= 1]) == 0:
+        if (
+            len(phi[phi <= 1]) == 0
+            or len([e for a in min_pvals_under_tau for e in a]) == 1
+        ):
             warnings.warn(
-                "The smallest reachable p-values of all strata are above the threshold, combined p-value is 1"
+                "The smallest reachable p-values of all strata are above the threshold or the distribution have only a support of 1, combined p-value is 1"
             )
-            if isinstance(comb_pvals, (int, float)):
-                return 1
-            elif isinstance(comb_pvals, np.ndarray):
-                return np.array([1 for _ in comb_pvals])
+            if get_moment:  # the distribution does not exist
+                return (0, 0)
+            elif get_params:
+                return (np.nan, np.nan, 1, np.nan)
+            else:
+                if isinstance(comb_pvals, np.ndarray):
+                    return np.array([1 for _ in comb_pvals])
+                else:
+                    return 1
         else:
             phi = -2 * np.log(np.max(phi[phi <= 1]))
         prop = 1 - prop
@@ -600,7 +604,7 @@ def moment_matching_estimator(
             )
         else:
             raise ValueError("comb_pvals must be a float or a numpy array")
-        if combinaison_pvals < phi:
+        if combinaison_pvals <= phi:
             return 1
         else:
             return gamma(alpha, scale=beta).sf(combinaison_pvals - phi) * prop
@@ -666,14 +670,6 @@ def get_pval_comb(
         for p in data_params
     ]
     support_size = np.prod(size_HG)
-    var_Y_tau = moment_matching_estimator(
-        data_params,
-        type,
-        list_pvals=data_pvals,
-        tau=tau,
-        moment=moment,
-        get_moment=True,
-    )[1]
 
     max_val = 0
     for p in data_params:
@@ -717,6 +713,14 @@ def get_pval_comb(
             all_value=all_value,
         )
     else:
+        var_Y_tau = moment_matching_estimator(
+            data_params,
+            type,
+            list_pvals=data_pvals,
+            tau=tau,
+            moment=moment,
+            get_moment=True,
+        )[1]
         if verbose:
             print(
                 f"The support of the combined p-value is {support_size:.2e}, over the compute explicite threshold of {threshold_compute_explicite:.2e} , the moment matching estimator is used."
