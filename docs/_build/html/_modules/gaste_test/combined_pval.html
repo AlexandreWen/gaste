@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>gaste_test.combined_pval &mdash; gaste test 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
 
   
@@ -131,11 +131,10 @@
     <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">tau</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">versbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">distribution</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">all_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="c1"># TODO fisnish docstring</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute explicit law of combination of p-values.</span>
 
@@ -151,7 +150,7 @@
 <span class="sd">        The threshold value for combining p-values. Defaults to None.</span>
 <span class="sd">    jobs : int, optional</span>
 <span class="sd">        The number of parallel jobs to run. Defaults to None.</span>
-<span class="sd">    versbose : bool, optional</span>
+<span class="sd">    verbose : bool, optional</span>
 <span class="sd">        Whether to print verbose output. Defaults to False.</span>
 <span class="sd">    distribution : bool, optional</span>
 <span class="sd">        Whether to return the distribution of combined p-values. Defaults to False.</span>
@@ -161,34 +160,27 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float or tuple</span>
-<span class="sd">        If `distribution` is False and `all_value` is False, returns the combined p-value.</span>
-<span class="sd">        If `distribution` is True and `all_value` is False, returns the reversed arrays of</span>
-<span class="sd">        combined p-values and corresponding ranks.</span>
-<span class="sd">        If `all_value` is True, returns the arrays of all combined p-values and corresponding ranks.</span>
+<span class="sd">        If `distribution` is True, returns a tuple of array describing exact low of combination through the random variable and survival value (y, P(Y&gt;y)).</span>
+<span class="sd">        If `all_value` is True, rounded strategy is not used.</span>
+<span class="sd">        Else, returns the combined p-value.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    This function computes the explicit combination of p-values based on the given parameters.</span>
 <span class="sd">    The combination can be either &quot;under&quot; or &quot;over&quot; depending on the `type` parameter.</span>
-<span class="sd">    The threshold value `tau` is used to determine the significance of the combined p-values.</span>
+<span class="sd">    The threshold value `tau` is used to truncate the combination of p-values.</span>
 <span class="sd">    The `jobs` parameter controls the number of parallel jobs to run for faster computation.</span>
-<span class="sd">    Setting `versbose` to True will print additional information during the computation.</span>
+<span class="sd">    Setting `verbose` to True will print a progress bar of the computation.</span>
 <span class="sd">    Setting `distribution` to True will return the distribution of combined p-values.</span>
-<span class="sd">    Setting `all_value` to True will return all values of combined p-values.</span>
+<span class="sd">    Setting `all_value` to True will return all values of combined p-values without rounded strategy.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; list_params = [[10, 5, 20], [15, 8, 25], [12, 6, 18]]</span>
-<span class="sd">    &gt;&gt;&gt; list_pvals = [0.05, 0.01, 0.1]</span>
+<span class="sd">    &gt;&gt;&gt; list_params = [[20, 5, 10], [25, 8, 15], [18, 12, 6]]</span>
+<span class="sd">    &gt;&gt;&gt; list_pvals = [0.15170278637770898, 0.12810484709798212, 0.29427925016160306]</span>
 <span class="sd">    &gt;&gt;&gt; type = &quot;under&quot;</span>
-<span class="sd">    &gt;&gt;&gt; tau = 0.05</span>
-<span class="sd">    &gt;&gt;&gt; jobs = 4</span>
-<span class="sd">    &gt;&gt;&gt; versbose = True</span>
-<span class="sd">    &gt;&gt;&gt; distribution = False</span>
-<span class="sd">    &gt;&gt;&gt; all_value = False</span>
-<span class="sd">    &gt;&gt;&gt; result = explicite_combinaison(list_params, list_pvals, type, tau, jobs, versbose, distribution, all_value)</span>
-<span class="sd">    &gt;&gt;&gt; print(result)</span>
-<span class="sd">    0.0123456789</span>
+<span class="sd">    &gt;&gt;&gt; explicite_combinaison(list_params, list_pvals, type)</span>
+<span class="sd">    0.028607013097391977</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tau</span><span class="p">:</span>
@@ -199,17 +191,18 @@
     <span class="n">masse</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">max_val</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">list_params</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">hypergeom</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="n">sup_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
         <span class="n">sup_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
         <span class="k">if</span> <span class="s2">&quot;under&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">:</span>
             <span class="n">pvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">sup_min</span><span class="p">,</span> <span class="n">sup_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">pval_min</span> <span class="o">:=</span> <span class="n">h</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">sup_min</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tau</span> <span class="ow">and</span> <span class="mf">0.0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pval_min</span><span class="p">)</span>
+                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pval_min</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
         <span class="k">elif</span> <span class="s2">&quot;over&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">:</span>
             <span class="n">pvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">sup_min</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sup_max</span><span class="p">)))</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">pval_min</span> <span class="o">:=</span> <span class="n">h</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">sup_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tau</span> <span class="ow">and</span> <span class="mf">0.0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pval_min</span><span class="p">)</span>
+                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pval_min</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;type must be either &#39;under&#39; or &#39;over&#39;&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="mf">0.0</span> <span class="ow">in</span> <span class="n">pvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -219,13 +212,14 @@
             <span class="n">pvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">p</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
             <span class="p">)</span>
+            <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
         <span class="n">masse</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">h</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sup_min</span><span class="p">,</span> <span class="n">sup_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
     <span class="n">max_val</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">max_val</span>
     <span class="n">round_dec</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_val</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">3</span>
     <span class="n">pvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pvals</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
     <span class="n">masse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">masse</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
     <span class="n">size_pv</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">masse</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">versbose</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">size_pv</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">size_pv</span><span class="p">),</span> <span class="s2">&quot;max supp&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">size_pv</span><span class="p">))</span>
 
     <span class="n">cartesian_product</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">size_pv</span><span class="p">])</span>
@@ -242,7 +236,7 @@
                         <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">total</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">size_pv</span><span class="p">),</span>
-                    <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="n">versbose</span><span class="p">,</span>
+                    <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="n">verbose</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -325,10 +319,10 @@
 <span class="sd">        * &quot;over&quot;: Estimate the parameters for the upper tail of the distribution.</span>
 
 <span class="sd">    list_pvals : array-like, optional</span>
-<span class="sd">        Array-like object containing the p-values for each stratum.</span>
+<span class="sd">        Array-like object containing the p-values to combine for each stratum.</span>
 <span class="sd">        Either `list_pvals` or `comb_pvals` must be provided, but not both.</span>
-<span class="sd">    comb_pvals : array-like, optional</span>
-<span class="sd">        Array-like object containing the combined p-values for each stratum.</span>
+<span class="sd">    comb_pvals : array-like or float, optional</span>
+<span class="sd">        Float or array-like object containing the value of combination of p-values.</span>
 <span class="sd">        Either `list_pvals` or `comb_pvals` must be provided, but not both.</span>
 <span class="sd">    tau : float, optional</span>
 <span class="sd">        Threshold value for the p-values. Defaults to None.</span>
@@ -345,16 +339,16 @@
 <span class="sd">    tuple or float or array-like</span>
 <span class="sd">    Depending on the input parameters, the function returns:</span>
 
-<span class="sd">        * If `get_params` is True and `get_moment` is False, returns a tuple containing the estimated parameters of the gamma distribution.</span>
-<span class="sd">        * If `get_params` is False and `get_moment` is True, returns a tuple containing the estimated moment.</span>
-<span class="sd">        * If both `get_params` and `get_moment` are True, returns a tuple containing both the estimated parameters and moment.</span>
-<span class="sd">        * If both `get_params` and `get_moment` are False, returns the combined p-value.</span>
+<span class="sd">        * If `get_params` is True, returns a tuple containing the estimated parameters of the gamma distribution.</span>
+<span class="sd">        * If `get_moment` is True, returns a tuple containing the estimated moment.</span>
+<span class="sd">        * If `comb_pvals` is an array-like object, returns an array-like object of combined p-value.</span>
+<span class="sd">        * Else, returns a float value of the combined p-value.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 
-<span class="sd">        * If `list_pvals` and `comb_pvals` are both None or both provided.</span>
+<span class="sd">        * If `list_pvals` and `comb_pvals` are both None or both provided when get_params if False.</span>
 <span class="sd">        * If `moment` is not 2, 3, or 4.</span>
 <span class="sd">        * If `tau` is provided and is not between 0 (excluded) and 1.</span>
 
@@ -377,21 +371,33 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; params = [(100, 50, 10), (200, 100, 20)]</span>
-<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;under&quot;, list_pvals=[0.1, 0.05])</span>
-<span class="sd">    (0.5, 0.1)</span>
-<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;over&quot;, comb_pvals=[0.2, 0.3])</span>
-<span class="sd">    0.4</span>
-<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;under&quot;, list_pvals=[0.1, 0.05], get_params=True)</span>
-<span class="sd">    (0.5, 0.1)</span>
-<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;over&quot;, comb_pvals=[0.2, 0.3], get_moment=True)</span>
-<span class="sd">    0.4</span>
+<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;under&quot;, list_pvals=[0.15892000985554622, 0.0485035183722576])</span>
+<span class="sd">    0.01974031791641234</span>
+<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;over&quot;, comb_pvals=9.730946451863904)</span>
+<span class="sd">    0.01974031791641234</span>
+<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;over&quot;, list_pvals=[0.15892000985554622, 0.0485035183722576], get_moment=True)</span>
+<span class="sd">    (3.087381868306516, 5.737504083931502)</span>
+<span class="sd">    &gt;&gt;&gt; moment_matching_estimator(params, &quot;under&quot;, list_pvals=[0.15892000985554622, 0.0485035183722576], get_params=True)</span>
+<span class="sd">    (1.6613368219541702, 1.8583720215596864, 1, 0)</span>
+<span class="sd">    &gt;&gt;&gt; gaste_test.moment_matching_estimator(params, &quot;under&quot;, comb_pvals=9.730946451863904, tau=0.2)</span>
+<span class="sd">    0.0018928012017953636</span>
+<span class="sd">    &gt;&gt;&gt; gaste_test.moment_matching_estimator(params, &quot;under&quot;, get_params=True, tau=0.2)</span>
+<span class="sd">    (0.9601452647906275, 1.9215151230936054, 0.2590451096515598, 0.45983274717174016)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_pvals</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="n">comb_pvals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;list_pvals or comb_pvals must be not None&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_pvals</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+        <span class="ow">and</span> <span class="n">comb_pvals</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">get_params</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;list_pvals or comb_pvals must be not None when get_params is False&quot;</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_pvals</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="n">comb_pvals</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;list_pvals and comb_pvals cannot be not None at the same time&quot;</span>
         <span class="p">)</span>
+    <span class="k">if</span> <span class="n">list_pvals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">get_params</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;list_pvals must be provided when get_params is False&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">moment</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;moment must be 2, 3 or 4&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tau</span><span class="p">:</span>
@@ -470,8 +476,9 @@
     <span class="n">prop</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">control_pval</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">max_support</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">min_pvals_under_tau</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">hypergeom</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">param</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="n">sup_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">param</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
         <span class="n">sup_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
@@ -491,14 +498,10 @@
             <span class="p">)</span>
             <span class="n">control_pval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
             <span class="n">pvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pvals</span><span class="p">])</span>
-            <span class="n">max_support</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">300</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">max_support</span> <span class="o">+=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">pval</span> <span class="o">/</span> <span class="n">tau</span> <span class="k">if</span> <span class="n">pval</span> <span class="o">&lt;=</span> <span class="n">tau</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">pval</span> <span class="ow">in</span> <span class="n">pvals</span><span class="p">])</span>
-            <span class="p">)</span>
         <span class="n">phi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="nb">min</span><span class="p">(</span><span class="n">pvals</span> <span class="o">/</span> <span class="n">tau</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="k">if</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">))</span>
         <span class="p">)</span>
+        <span class="n">min_pvals_under_tau</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pvals</span><span class="p">[</span><span class="n">pvals</span> <span class="o">&lt;=</span> <span class="n">tau</span><span class="p">])</span>
         <span class="n">esp</span> <span class="o">=</span> <span class="n">_esperance</span><span class="p">(</span><span class="n">masse</span><span class="p">,</span> <span class="n">pvals</span><span class="p">)</span>
         <span class="n">esps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">esp</span><span class="p">)</span>
         <span class="n">var</span> <span class="o">=</span> <span class="n">_variance</span><span class="p">(</span><span class="n">masse</span><span class="p">,</span> <span class="n">pvals</span><span class="p">,</span> <span class="n">esp</span><span class="p">)</span>
@@ -512,14 +515,22 @@
 
     <span class="k">if</span> <span class="n">tau</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="n">phi</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="n">phi</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="ow">or</span> <span class="nb">len</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">min_pvals_under_tau</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">a</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;The smallest reachable p-values of all strata are above the threshold, combined p-value is 1&quot;</span>
+                <span class="s2">&quot;The smallest reachable p-values of all strata are above the threshold or the distribution have only a support of 1, combined p-value is 1&quot;</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comb_pvals</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-                <span class="k">return</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comb_pvals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">comb_pvals</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">get_moment</span><span class="p">:</span>  <span class="c1"># the distribution does not exist</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">get_params</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comb_pvals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">comb_pvals</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">phi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="n">phi</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">]))</span>
         <span class="n">prop</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">prop</span>
@@ -662,7 +673,7 @@
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comb_pvals</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
             <span class="n">combinaison_pvals</span> <span class="o">=</span> <span class="n">comb_pvals</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comb_pvals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comb_pvals</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
                 <span class="p">[</span>
                     <span class="n">gamma</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">prop</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">phi</span> <span class="k">else</span> <span class="mi">1</span>
@@ -671,7 +682,7 @@
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;comb_pvals must be a float or a numpy array&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">combinaison_pvals</span> <span class="o">&lt;</span> <span class="n">phi</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">combinaison_pvals</span> <span class="o">&lt;=</span> <span class="n">phi</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">gamma</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">combinaison_pvals</span> <span class="o">-</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">prop</span></div>
@@ -681,11 +692,11 @@
 <div class="viewcode-block" id="get_pval_comb">
 <a class="viewcode-back" href="../../combined_pval.html#gaste_test.combined_pval.get_pval_comb">[docs]</a>
 <span class="k">def</span> <span class="nf">get_pval_comb</span><span class="p">(</span>
-    <span class="n">data_pvals</span><span class="p">,</span>
     <span class="n">data_params</span><span class="p">,</span>
+    <span class="n">data_pvals</span><span class="p">,</span>
     <span class="nb">type</span><span class="p">,</span>
-    <span class="n">tau</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">threshold_compute_explicite</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">tau</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">threshold_compute_explicite</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>
     <span class="n">moment</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -740,6 +751,27 @@
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">data_params</span>
     <span class="p">]</span>
     <span class="n">support_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">size_HG</span><span class="p">)</span>
+
+    <span class="n">max_val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">data_params</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">hypergeom</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">sup_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+        <span class="n">sup_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="s2">&quot;under&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pval_min</span> <span class="o">:=</span> <span class="n">h</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">sup_min</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tau</span> <span class="ow">and</span> <span class="mf">0.0</span> <span class="o">!=</span> <span class="n">pval_min</span><span class="p">:</span>
+                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pval_min</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;over&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pval_min</span> <span class="o">:=</span> <span class="n">h</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">sup_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tau</span> <span class="ow">and</span> <span class="mf">0.0</span> <span class="o">!=</span> <span class="n">pval_min</span><span class="p">:</span>
+                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pval_min</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">max_val</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;type must be either &#39;under&#39; or &#39;over&#39;&quot;</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">max_val</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_pvals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_pvals</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_pvals</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">tau</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_pvals</span><span class="p">):</span>
@@ -757,19 +789,48 @@
             <span class="nb">type</span><span class="p">,</span>
             <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
             <span class="n">jobs</span><span class="o">=</span><span class="n">jobs</span><span class="p">,</span>
-            <span class="n">versbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
             <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
             <span class="n">all_value</span><span class="o">=</span><span class="n">all_value</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">var_Y_tau</span> <span class="o">=</span> <span class="n">moment_matching_estimator</span><span class="p">(</span>
+            <span class="n">data_params</span><span class="p">,</span>
+            <span class="nb">type</span><span class="p">,</span>
+            <span class="n">list_pvals</span><span class="o">=</span><span class="n">data_pvals</span><span class="p">,</span>
+            <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+            <span class="n">moment</span><span class="o">=</span><span class="n">moment</span><span class="p">,</span>
+            <span class="n">get_moment</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;The support of the combined p-value is </span><span class="si">{</span><span class="n">support_size</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, over the compute explicite threshold of </span><span class="si">{</span><span class="n">threshold_compute_explicite</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> , the moment matching estimator is used.&quot;</span>
             <span class="p">)</span>
+        <span class="n">automatic_moment</span> <span class="o">=</span> <span class="n">moment</span>
+        <span class="n">already_check</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">tau</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;You set a truncation threshold tau </span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s2"> above 0.2, the moment matching estimator is used automatically with second moment.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">automatic_moment</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">already_check</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">var_Y_tau</span> <span class="o">/</span> <span class="n">max_val</span> <span class="o">&gt;</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">already_check</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The ratio between the variance of the combined p-value (</span><span class="si">{</span><span class="n">var_Y_tau</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) and the max value of the statistic (</span><span class="si">{</span><span class="n">max_val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) is above 0.1, the moment matching estimator is used automatically with second moment.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">automatic_moment</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">moment_matching_estimator</span><span class="p">(</span>
-            <span class="n">data_params</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">list_pvals</span><span class="o">=</span><span class="n">data_pvals</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="n">moment</span>
+            <span class="n">data_params</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">list_pvals</span><span class="o">=</span><span class="n">data_pvals</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="n">automatic_moment</span>
         <span class="p">)</span></div>
 
+
+
+<span class="c1"># idea find the value of tau given the min combined pvals (pval hacking ???)</span>
+<span class="c1"># or use the BD test to test the homogeneous</span>
+<span class="c1"># number of test = number of strata</span>
+<span class="c1"># test sensibility of approximation comparing the moment (eg coeff variation among 3 values)</span>
 </pre></div>
 
            </div>
