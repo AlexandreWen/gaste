@@ -2,6 +2,12 @@
 
 Welcome to the Gaste package! This package provides a set of tools and utilities for analyzing stratified 2x2 contingency table. Gives the exact or approximate p-value of the overall association between features and outcomes under 2x2 stratified contingency table.
 
+## Citation
+
+If you use the package GASTE in your project, please cite us :
+
+[Wendling, A., & Galiez, C. (2025). Gamma Approximation of Stratified Truncated Exact test (GASTE-test) & Application. Computational Statistics & Data Analysis, 108277.](https://doi.org/10.1016/j.csda.2025.108277)
+
 ## Installation
 
 To install the Gaste package, simply run the following command:
