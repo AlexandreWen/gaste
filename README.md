@@ -190,7 +190,7 @@ statistic: 3.9103, p-value: 0.7847
 
 ## Documentation
 
-For detailed information on how to use the Gaste package, please refer to the sphinx documentation
+For detailed information on how to use the Gaste package, please refer to the sphinx documentation : [https://gaste.readthedocs.io/en/latest/](https://gaste.readthedocs.io/en/latest/)
 
 ## Contributing
 
