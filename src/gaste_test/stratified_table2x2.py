@@ -497,8 +497,8 @@ class StratifiedTable2x2:
         else:
             limit_computation_exact_ = self.limit_computation_exact
         comb_pval = get_pval_comb(
-            pvals,
             self.params,
+            pvals,
             alternative,
             tau=tau,
             threshold_compute_explicite=limit_computation_exact_,

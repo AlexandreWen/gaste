@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: gaste-test
-Version: 0.1.4
+Version: 0.1.6
 Summary: Gamma approximation of stratified truncated exact test
 Home-page: UNKNOWN
 Author: Alexandre WENDLING
@@ -203,7 +203,7 @@ statistic: 3.9103, p-value: 0.7847
 
 ## Documentation
 
-For detailed information on how to use the Gaste package, please refer to the sphinx documentation
+For detailed information on how to use the Gaste package, please refer to the sphinx documentation : [https://gaste.readthedocs.io/en/latest/](https://gaste.readthedocs.io/en/latest/)
 
 ## Contributing
 
